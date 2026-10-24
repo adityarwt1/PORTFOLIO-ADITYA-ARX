@@ -147,13 +147,13 @@ void main() {
 
 export default function PixelBlast({
   variant = "square",
-  pixelSize = 3,
-  color = "#ff8a3d",
-  patternScale = 2,
+  pixelSize = 2,
+  color = "#09090b",
+  patternScale = 1,
   patternDensity = 1,
-  rippleSpeed = 0.3,
-  edgeFade = 0.5,
-  speed = 0.5,
+  rippleSpeed = 0.5,
+  edgeFade = 0.0,
+  speed = 0.2,
 }: PixelBlastProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
