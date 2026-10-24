@@ -1,12 +1,13 @@
-import HomePageLoadinScreen from "@/components/HomePageLoading";
-import {portforlioData} from "@/portFolioData/portFolioData"
-export default async function HomePage() {
-  "use cache"
-  console.log(portforlioData)
-  
-  return (
-    <div>HomePage Content</div>
-  )
-}
+import PixelBlast from "@/components/PixelBlast";
+import { portforlioData } from "@/portFolioData/portFolioData";
 
+export default function HomePage() {
+  const featuredExperience = portforlioData.experiences.find(
+    (experience) => experience.currentlyWorking,
+  );
+
+  return (
+      <PixelBlast />
+  );
+}
 
