@@ -7,6 +7,7 @@ interface PortFolioInterfaces {
     lastOnline: string;
     currentAcadmics: string;
     hoby: string;
+    currentRole:string
     emailIds: Array<{
         contactFor: string;
         emailId: string;
@@ -180,5 +181,6 @@ export const portforlioData: PortFolioInterfaces = {
         liveUrlLink:"https://arx-softwares.vercel.app/",
         name:"ARX SOFTWARES",
         images:['/company/arxSoftwares/banner.png']
-    }]
+    }],
+    currentRole:"SOFTWARE ENGINEER"
 }; 
