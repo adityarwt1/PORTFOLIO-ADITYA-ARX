@@ -69,6 +69,10 @@ interface PortFolioInterfaces {
         isCurrentActive: boolean;
         descriptions: string[];
     }>;
+    introTimeout:number
+    showProfileSearchParamName:string
+    dummyProfilePicture:string
+    fullBio:string
 }
 
 export const portforlioData: PortFolioInterfaces = {
@@ -182,5 +186,9 @@ export const portforlioData: PortFolioInterfaces = {
         name:"ARX SOFTWARES",
         images:['/company/arxSoftwares/banner.png']
     }],
-    currentRole:"SOFTWARE ENGINEER"
+    currentRole:"SOFTWARE ENGINEER",
+    introTimeout:2000,
+    showProfileSearchParamName:"resume",
+    dummyProfilePicture:"/dummyImage.png",
+    fullBio:`Myself Aditya Rawat currenty I am working at own product called ARX SOFTWARES. I am started codding since past ${new Date().getFullYear() - 2024} years when I was in class 10th, since this period of time gave 3 interviews in the startups and worked full time intern at one of those fintech company.`
 }; 
