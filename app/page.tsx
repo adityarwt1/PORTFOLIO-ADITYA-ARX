@@ -2,6 +2,7 @@
 import IntroAnimation from "@/components/IntroLoadin";
 import PixelBlast from "@/components/PixelBlast";
 import { portforlioData } from "@/portFolioData/portFolioData";
+import { AnimatePresence } from "motion/react";
 import { useEffect, useState } from "react";
 
 export default function HomePage() {
@@ -14,12 +15,12 @@ export default function HomePage() {
     if(isIntroSaw){
       setTimeout(() => {
         setIsSawIntro(false)
-      }, 5200000);
+      }, 2000);
     }
   },[isIntroSaw])
-  if(isIntroSaw) return <IntroAnimation/>
   return (
-      <PixelBlast />
+    <AnimatePresence mode="wait">
+      {isIntroSaw ? <IntroAnimation key="intro" /> : <PixelBlast key="pixel-blast" />}
+    </AnimatePresence>
   );
 }
-

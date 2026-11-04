@@ -1,10 +1,11 @@
 "use client"
 import React from "react"
 import { motion } from 'motion/react'
+import { portforlioData } from "@/portFolioData/portFolioData"
 
 const tickerItems = Array.from({ length: 8 }, (_, index) => (
     <span key={index} className="shrink-0">
-        SOFTWARE ENGINEER
+        {portforlioData.currentRole}
     </span>
 ))
 
@@ -23,7 +24,12 @@ const tickerRows = Array.from({ length: 8 }, (_, index) => (
 
 export default function IntroAnimation() {
     return (
-        <div className="relative flex h-screen w-full items-center justify-center overflow-hidden" style={{ perspective: 1000 }}>
+        <motion.div
+            className="relative flex h-screen w-full items-center justify-center overflow-hidden"
+            style={{ perspective: 1000 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+        >
             <div className="absolute inset-0 flex flex-col gap-5 py-5" aria-hidden="true">
                 {tickerRows}
             </div>
@@ -35,6 +41,6 @@ export default function IntroAnimation() {
             >
                 ADITYA RAWAT
             </motion.span>
-        </div>
+        </motion.div>
     )
 }
