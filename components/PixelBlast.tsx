@@ -264,5 +264,5 @@ export default function PixelBlast({
     };
   }, [color, edgeFade, patternDensity, patternScale, pixelSize, rippleSpeed, speed, variant]);
 
-  return <div ref={containerRef} className="absolute inset-0 overflow-hidden" aria-hidden="true" />;
+  return <div ref={containerRef} className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true" />;
 }

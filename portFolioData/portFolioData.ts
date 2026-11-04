@@ -8,6 +8,7 @@ interface PortFolioInterfaces {
     currentAcadmics: string;
     hoby: string;
     currentRole:string
+    navigationTabs:navigationTypes[]
     emailIds: Array<{
         contactFor: string;
         emailId: string;
@@ -74,8 +75,9 @@ interface PortFolioInterfaces {
     dummyProfilePicture:string
     fullBio:string
 }
-
+export type navigationTypes = "Experience"| "Certificate"|"Projects"|"Acadmic"|"Contact"|"More About"
 export const portforlioData: PortFolioInterfaces = {
+    navigationTabs:[ "Experience", "Projects","Certificate", "Acadmic","Contact", "More About"],
     username: "adityarwt1",
     acadmicBackgrounds: [{
         address: "Sidhi, Post Code 48661 Madhya Pradesh, India.",
@@ -175,7 +177,7 @@ export const portforlioData: PortFolioInterfaces = {
         6263508686,
         9244524565
     ],
-    profilePicture:"/profilepicture.png",
+    profilePicture:"/profilePicture.png",
     projects:[{
         achivements:["Build software library where new modern problem who might be solve with the technical stuff solved and shipped!",
 
@@ -189,6 +191,6 @@ export const portforlioData: PortFolioInterfaces = {
     currentRole:"SOFTWARE ENGINEER",
     introTimeout:2000,
     showProfileSearchParamName:"resume",
-    dummyProfilePicture:"/dummyImage.png",
+    dummyProfilePicture:"/defaultPicture.png",
     fullBio:`Myself Aditya Rawat currenty I am working at own product called ARX SOFTWARES. I am started codding since past ${new Date().getFullYear() - 2024} years when I was in class 10th, since this period of time gave 3 interviews in the startups and worked full time intern at one of those fintech company.`
 }; 
