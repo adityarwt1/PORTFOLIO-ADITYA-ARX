@@ -2,19 +2,20 @@
 "use client"
 import IntroAnimation from "@/components/IntroLoadin";
 import PixelBlast from "@/components/PixelBlast";
-import { navigationTypes, portforlioData } from "@/portFolioData/portFolioData";
+import { ExperienceInterface, navigationTypes, PortFolioInterfaces, portforlioData } from "@/portFolioData/portFolioData";
 import { AnimatePresence } from "motion/react";
 import Image from 'next/image'
 import { useSearchParams } from "next/navigation";
-import { Dispatch, SetStateAction, Suspense, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, Suspense, useEffect, useId, useMemo, useState } from "react";
 
 function HomePageWrapper() {
+  const porftFolioDataMemo = useMemo<PortFolioInterfaces>(()=>portforlioData,[])
   const [isIntroSaw, setIsSawIntro] = useState<boolean>(true)
   const [currentTab, setCurrentTab] = useState<navigationTypes>("Experience")
   const searchParams = useSearchParams()
   const isResumeSearchParamsAvailable = searchParams.get(portforlioData.showProfileSearchParamName) ? true : false
   const [isShowProfilePicture] = useState<boolean>(isResumeSearchParamsAvailable)
-  const featuredExperience = portforlioData.experiences.find(
+  const featuredExperience = porftFolioDataMemo.experiences.find(
 
     (experience) => experience.currentlyWorking,
   );
@@ -22,7 +23,7 @@ function HomePageWrapper() {
     if (isIntroSaw) {
       setTimeout(() => {
         setIsSawIntro(false)
-      }, portforlioData.introTimeout);
+      }, porftFolioDataMemo.introTimeout);
     }
   }, [isIntroSaw])
   return (
@@ -33,9 +34,9 @@ function HomePageWrapper() {
         <div key="pixel-blast" className="relative isolate h-screen w-full overflow-hidden">
           <PixelBlast pixelSize={1} patternDensity={0.65} />
           <main className="pointer-events-auto absolute inset-0 z-10 flex flex-col items-center gap-2 font-mono">
-            <Banner />
+            <Banner bannerImageSource={porftFolioDataMemo.bannerImages[0]}/>
             <ProfileContainer showProfileImage={isShowProfilePicture} />
-            <NavigationBar currentTab={currentTab} setCurrentTab={setCurrentTab} />
+            <NavigationBar currentTab={currentTab} setCurrentTab={setCurrentTab} portFolioData={porftFolioDataMemo} />
           </main>
         </div>
       )}
@@ -44,9 +45,9 @@ function HomePageWrapper() {
 }
 
 
-const Banner = () => {
+const Banner = ({bannerImageSource}:{bannerImageSource:string}) => {
   return <div className="relative z-10 mt-5 h-37.5 w-3xl  bg-white shadow-xl shadow-accent border border-zinc-950/15">
-      <Image className="block h-full w-full object-contain" src={portforlioData.bannerImages[0]} alt="Banner" width={778} height={212} unoptimized />
+      <Image className="block h-full w-full object-contain" src={bannerImageSource} alt="Banner" width={778} height={212} unoptimized />
     </div>
 }
 
@@ -63,7 +64,7 @@ const ProfileContainer = ({ showProfileImage }: { showProfileImage?: boolean }) 
   )
 }
 
-const NavigationBar = ({ currentTab, setCurrentTab }: { currentTab: navigationTypes, setCurrentTab: Dispatch<SetStateAction<navigationTypes>> }) => {
+const NavigationBar = ({ currentTab, setCurrentTab, portFolioData }: { currentTab: navigationTypes, setCurrentTab: Dispatch<SetStateAction<navigationTypes>>, portFolioData:PortFolioInterfaces }) => {
   const handleClickToSelect = (tabName: navigationTypes) => setCurrentTab(tabName)
   return (
     <div className="w-3xl bg-white shadow-accent-foreground px-4 py-2 border border-zinc-950/15  ">
@@ -72,10 +73,38 @@ const NavigationBar = ({ currentTab, setCurrentTab }: { currentTab: navigationTy
           <button className={`${currentTab === element && "border-b"} border-t-white uppercase text-center border-b-zinc-950 `} key={element} onClick={() => handleClickToSelect(element)}>{element}</button>
         ))]}
       </div>
+
+      {currentTab === "Experience" && <ExperienceWrapper expreienceData={portFolioData.experiences} />}
     </div>)
 
 }
 
+
+
+const ExperienceWrapper = ({expreienceData}:{expreienceData:ExperienceInterface[]})=>{
+  return (
+    <div className="flex flex-col gap-3">
+      {expreienceData.map((experienceObject)=>(
+        <ExperienceCard key={ experienceObject.startingFrom + useId()} experienceOject={experienceObject}/>
+      ))}
+    </div>
+  )
+}
+
+const ExperienceCard = ({experienceOject}:{experienceOject:ExperienceInterface})=>{
+  console.log(experienceOject)
+  return (
+    <div className="flex flex-col">
+      <div className="flex justify-between">
+        <div className="flex">
+          <img src={experienceOject.companyLogo} alt={experienceOject.companyName + " Logo"} />
+          <span>{experienceOject.companyName}</span>
+        </div>
+        <span>:</span>
+      </div>
+    </div>
+  )
+}
 export default function HomePage() {
   return (
     <Suspense fallback={<LoadingInSuspense />}>

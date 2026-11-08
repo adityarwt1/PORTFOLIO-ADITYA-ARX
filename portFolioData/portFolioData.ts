@@ -1,4 +1,75 @@
-interface PortFolioInterfaces {
+export interface ExperienceInterface {
+    companyName: string;
+    startingFrom: Date;
+    endDate?: Date;
+    currentlyWorking: boolean;
+    role: string;
+    images?: string[];
+    description: string;
+    achivements?: string[];
+    skillShet?: string[];
+    isPaid: boolean;
+    companyLogo?: string;
+    type:"Part-Time" |"Remote" |"Full Time" | "Internship",
+    location:string
+}
+
+export interface EmailInterface {
+    contactFor: string;
+    emailId: string;
+}
+
+export interface AchievementInterface {
+    image?: string[];
+    achivementName: string;
+    achivementDate: Date;
+    isFeaturable: boolean;
+    description: string;
+}
+
+export interface CertificateInterface {
+    certificateName: string;
+    images: string[];
+    certificateProvider: string;
+    certificateDescription: string;
+    certificateIssueDate: Date;
+    certificateSkillGain?: string[];
+    certificateOffialLink?: string;
+}
+
+export interface ProjectExternalLinkInterface {
+    link: string;
+    icon?: string;
+}
+
+export interface ProjectContributorInterface {
+    iconOfSocialMedia?: string;
+    link: string;
+}
+
+export interface ProjectInterface {
+    name: string;
+    description: string[];
+    images?: string[];
+    liveUrlLink: string;
+    externalLinks?: ProjectExternalLinkInterface[];
+    achivements: string[];
+    startingDate: Date;
+    endDate?: Date;
+    contributers?: ProjectContributorInterface[];
+}
+
+export interface AcademicBackgroundInterface {
+    name: string;
+    image?: string[];
+    address: string;
+    cgpa?: number;
+    currentYear?: string;
+    isCurrentActive: boolean;
+    descriptions: string[];
+}
+
+export interface PortFolioInterfaces {
     username: string;
     fullName: string;
     bio: string;
@@ -9,67 +80,14 @@ interface PortFolioInterfaces {
     hoby: string;
     currentRole:string
     navigationTabs:navigationTypes[]
-    emailIds: Array<{
-        contactFor: string;
-        emailId: string;
-    }>;
+    emailIds: EmailInterface[];
     mobileNumber: number[];
     course: string;
-    achivements: Array<{
-        image?: string[];
-        achivementName: string;
-        achivementDate: Date;
-        isFeaturable: boolean;
-        description: string;
-    }>;
-    certificates: Array<{
-        certificateName: string;
-        images: string[];
-        certificateProvider: string;
-        certificateDescription: string;
-        certificateIssueDate: Date;
-        certificateSkillGain?: string[];
-        certificateOffialLink?: string;
-    }>;
-    experiences: Array<{
-        companyName: string;
-        startingFrom: Date;
-        endDate?: Date;
-        currentlyWorking: boolean;
-        role: string;
-        images?: string[];
-        description: string;
-        achivements?: string[];
-        skillShet?: string[];
-        isPaid: boolean
-        companyLogo?: string
-    }>;
-    projects: Array<{
-        name: string;
-        description: string[];
-        images?: string[];
-        liveUrlLink: string;
-        externalLinks?: Array<{
-            link: string;
-            icon?: string;
-        }>;
-        achivements: string[];
-        startingDate: Date;
-        endDate?: Date;
-        contributers?: Array<{
-            iconOfSocialMedia?: string;
-            link: string;
-        }>;
-    }>;
-    acadmicBackgrounds: Array<{
-        name: string;
-        image?: string[];
-        address: string;
-        cgpa?: number;
-        currentYear?: string;
-        isCurrentActive: boolean;
-        descriptions: string[];
-    }>;
+    achivements: AchievementInterface[];
+    certificates: CertificateInterface[];
+    experiences: ExperienceInterface[];
+    projects: ProjectInterface[];
+    acadmicBackgrounds: AcademicBackgroundInterface[];
     introTimeout:number
     showProfileSearchParamName:string
     dummyProfilePicture:string
@@ -153,7 +171,9 @@ export const portforlioData: PortFolioInterfaces = {
         achivements: ["E-Sport get 10X boot by our product E-Sports", "Developed Help in the Competative Exams!"],
         companyLogo: "/company/arxSoftwares/logo.png",
         images: ["/company/arx/banner.png"],
-        skillShet: ["NEXT.JS", 'REMIX 3', 'REACT.JS', "PRISMA ORM", "FIREBASE AUTHENTICATION"]
+        skillShet: ["NEXT.JS", 'REMIX 3', 'REACT.JS', "PRISMA ORM", "FIREBASE AUTHENTICATION"],
+        type:"Part-Time",
+        location:"Madhya Pradesh India"
     },
     {
         companyName: "TRIPX PAY",
@@ -168,7 +188,9 @@ export const portforlioData: PortFolioInterfaces = {
             "/company/tripxpay/certificate.png"
         ],
         skillShet: ["Firebase", "Next.js", "Tailwind CSS"],
-        companyLogo: "/company/tripxpay/logo.ico"
+        companyLogo: "/company/tripxpay/logo.ico",
+        type:"Internship",
+        location:"New Delhi India"
     }],
     fullName:"ADITYA RAWAT",
     hoby:"GAMMING AND CODDING",
