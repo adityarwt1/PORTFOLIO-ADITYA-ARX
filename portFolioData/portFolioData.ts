@@ -170,7 +170,7 @@ export const portforlioData: PortFolioInterfaces = {
         startingFrom: new Date(2026, 7, 24),
         achivements: ["E-Sport get 10X boot by our product E-Sports", "Developed Help in the Competative Exams!"],
         companyLogo: "/company/arxSoftwares/logo.png",
-        images: ["/company/arx/banner.png"],
+        images: ["/company/arxSoftwares/banner.png"],
         skillShet: ["NEXT.JS", 'REMIX 3', 'REACT.JS', "PRISMA ORM", "FIREBASE AUTHENTICATION"],
         type:"Part-Time",
         location:"Madhya Pradesh India"
@@ -185,7 +185,7 @@ export const portforlioData: PortFolioInterfaces = {
         achivements: ["Got full time offer after 4 months of intership.", "Shiped Admin Dashboard End to End!", "Work on document Verification process!"],
         endDate: new Date(2025, 6, 20),
         images: [
-            "/company/tripxpay/certificate.png"
+            "/company/tripxpay/Internship.png"
         ],
         skillShet: ["Firebase", "Next.js", "Tailwind CSS"],
         companyLogo: "/company/tripxpay/logo.ico",
