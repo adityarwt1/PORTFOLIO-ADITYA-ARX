@@ -1,0 +1,1 @@
+export const monthUtcNumberToCompleteMonth = ["JANUARY", "FEBRUARY", "MARCH","APRIL","MAY","JUNE","JULY","AGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"]
