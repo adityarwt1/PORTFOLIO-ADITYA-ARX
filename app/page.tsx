@@ -2,7 +2,7 @@
 "use client"
 import IntroAnimation from "@/components/IntroLoadin";
 import PixelBlast from "@/components/PixelBlast";
-import { ExperienceInterface, navigationTypes, PortFolioInterfaces, portforlioData, } from "@/portFolioData/portFolioData";
+import { ExperienceInterface, navigationTypes, PortFolioInterfaces, portforlioData, ProjectInterface, } from "@/portFolioData/portFolioData";
 import { AnimatePresence } from "motion/react";
 import Image from 'next/image'
 import { useSearchParams } from "next/navigation";
@@ -16,7 +16,6 @@ function HomePageWrapper() {
   const searchParams = useSearchParams()
   const isResumeSearchParamsAvailable = searchParams.get(porftFolioDataMemo.showProfileSearchParamName) ? true : false
   const [isShowProfilePicture] = useState<boolean>(isResumeSearchParamsAvailable)
-  const featuredExperience = porftFolioDataMemo.experiences.find((experience) => experience.currentlyWorking);
   useEffect(() => {
     if (isIntroSaw) {
       setTimeout(() => {
@@ -73,7 +72,8 @@ const NavigationBar = ({ currentTab, setCurrentTab, portFolioData }: { currentTa
         ))]}
       </div>
 
-      {currentTab === "Experience" && <ExperienceWrapper expreienceData={portFolioData.experiences} />}
+      {currentTab === "Experience" && <ExperienceWrapper key={useId()} expreienceData={portFolioData.experiences} />}
+      {currentTab === "Projects" && <ProjectsWrapper key={useId()} projectData={portFolioData.projects}/>}
     </div>)
 
 }
@@ -124,12 +124,29 @@ const ExperienceCard = ({ experienceOject }: { experienceOject: ExperienceInterf
             {experienceOject.images.length > 1 && <button className={`${experienceOject.images.length - 1 === currentImageIndex ? "cursor-not-allowed " : ""}w-[30%]`} onClick={() => handleImageMove("right")} disabled={experienceOject.images.length - 1 === currentImageIndex}><ChevronRightIcon /></button>}
           </div>
         </div>)}
-        <span>SKILL:-</span>
+        <span>SKILLSHET:-</span>
         <div className="flex flex-wrap gap-1">
-          {experienceOject.skillShet && experienceOject.skillShet.map((skill) => (<span className="px-3  rounded-full bg-zinc-950 text-white">{skill}</span>))}
+          {experienceOject.skillShet && experienceOject.skillShet.map((skill, index) => (<span key={skill + "_key" + index  } className="px-3  rounded-full bg-zinc-950 text-white">{skill}</span>))}
         </div>
       </div>
     </div>
+  )
+}
+
+
+
+const ProjectsWrapper = ({projectData}:{projectData:ProjectInterface[]})=>{
+  return (
+    <div className="flex flex-col gap-3">
+      {projectData.map((projectDataObject,index)=> <ProjectCards projectObject={projectDataObject} key={index + "_"+projectDataObject.name}/>)}
+    </div>
+  )
+}
+
+const ProjectCards = ({projectObject}:{projectObject:ProjectInterface})=>{
+  console.log(projectObject)
+  return (
+    <div>{projectObject.name}</div>
   )
 }
 export default function HomePage() {
