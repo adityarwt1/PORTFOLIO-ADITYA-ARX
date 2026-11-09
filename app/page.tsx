@@ -2,23 +2,20 @@
 "use client"
 import IntroAnimation from "@/components/IntroLoadin";
 import PixelBlast from "@/components/PixelBlast";
-import { ExperienceInterface, navigationTypes, PortFolioInterfaces, portforlioData } from "@/portFolioData/portFolioData";
+import { ExperienceInterface, navigationTypes, PortFolioInterfaces, portforlioData,  } from "@/portFolioData/portFolioData";
 import { AnimatePresence } from "motion/react";
 import Image from 'next/image'
 import { useSearchParams } from "next/navigation";
 import { Dispatch, SetStateAction, Suspense, useEffect, useId, useMemo, useState } from "react";
 
 function HomePageWrapper() {
-  const porftFolioDataMemo = useMemo<PortFolioInterfaces>(()=>portforlioData,[])
+  const porftFolioDataMemo = useMemo<PortFolioInterfaces>(()=> portforlioData,[])
   const [isIntroSaw, setIsSawIntro] = useState<boolean>(true)
   const [currentTab, setCurrentTab] = useState<navigationTypes>("Experience")
   const searchParams = useSearchParams()
-  const isResumeSearchParamsAvailable = searchParams.get(portforlioData.showProfileSearchParamName) ? true : false
+  const isResumeSearchParamsAvailable = searchParams.get(porftFolioDataMemo.showProfileSearchParamName) ? true : false
   const [isShowProfilePicture] = useState<boolean>(isResumeSearchParamsAvailable)
-  const featuredExperience = porftFolioDataMemo.experiences.find(
-
-    (experience) => experience.currentlyWorking,
-  );
+  const featuredExperience = porftFolioDataMemo.experiences.find((experience) => experience.currentlyWorking);
   useEffect(() => {
     if (isIntroSaw) {
       setTimeout(() => {
@@ -35,7 +32,7 @@ function HomePageWrapper() {
           <PixelBlast pixelSize={1} patternDensity={0.65} />
           <main className="pointer-events-auto absolute inset-0 z-10 flex flex-col items-center gap-2 font-mono">
             <Banner bannerImageSource={porftFolioDataMemo.bannerImages[0]}/>
-            <ProfileContainer showProfileImage={isShowProfilePicture} />
+            <ProfileContainer showProfileImage={isShowProfilePicture} portforlioData={porftFolioDataMemo} />
             <NavigationBar currentTab={currentTab} setCurrentTab={setCurrentTab} portFolioData={porftFolioDataMemo} />
           </main>
         </div>
@@ -51,7 +48,7 @@ const Banner = ({bannerImageSource}:{bannerImageSource:string}) => {
     </div>
 }
 
-const ProfileContainer = ({ showProfileImage }: { showProfileImage?: boolean }) => {
+const ProfileContainer = ({ showProfileImage, portforlioData }: { showProfileImage?: boolean, portforlioData:PortFolioInterfaces }) => {
   return (
     <div className="relative w-3xl h-auto bg-white  px-4 py-2  flex flex-col gap-2 shadow-accent shadow border border-zinc-950/15">
       <div className="h-25 w-25 overflow-hidden rounded-full border-2 border-zinc-950/15">
@@ -69,7 +66,7 @@ const NavigationBar = ({ currentTab, setCurrentTab, portFolioData }: { currentTa
   return (
     <div className="w-3xl bg-white shadow-accent-foreground px-4 py-2 border border-zinc-950/15  ">
       <div className="flex justify-evenly">
-        {[portforlioData.navigationTabs.map((element) => (
+        {[portFolioData.navigationTabs.map((element) => (
           <button className={`${currentTab === element && "border-b"} border-t-white uppercase text-center border-b-zinc-950 `} key={element} onClick={() => handleClickToSelect(element)}>{element}</button>
         ))]}
       </div>
