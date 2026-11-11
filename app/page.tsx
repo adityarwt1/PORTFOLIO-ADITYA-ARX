@@ -159,6 +159,6 @@ export default function HomePage() {
 
 const LoadingInSuspense = () => {
   return (
-    <div className="animate-bounce">Loading....</div>
+    <div className="animate-bounce w-full h-screen flex flex-col justify-center items-center"><span>Loading....</span></div>
   )
 }
