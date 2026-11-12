@@ -1,14 +1,16 @@
 
 "use client"
+import Link from "next/link";
 import IntroAnimation from "@/components/IntroLoadin";
 import PixelBlast from "@/components/PixelBlast";
+import Image from 'next/image'
 import { ExperienceInterface, navigationTypes, PortFolioInterfaces, portforlioData, ProjectInterface, } from "@/portFolioData/portFolioData";
 import { AnimatePresence } from "motion/react";
-import Image from 'next/image'
 import { useSearchParams } from "next/navigation";
 import { Dispatch, SetStateAction, Suspense, useEffect, useId, useMemo, useState } from "react";
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
+import { ArrowUpRightIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 import { monthUtcNumberToCompleteMonth } from "@/utiils/months";
+
 function HomePageWrapper() {
   const porftFolioDataMemo = useMemo<PortFolioInterfaces>(() => portforlioData, [])
   const [isIntroSaw, setIsSawIntro] = useState<boolean>(true)
@@ -29,7 +31,7 @@ function HomePageWrapper() {
         <IntroAnimation key="intro" />
       ) : (
         <div key="pixel-blast" className="relative isolate min-h-screen w-full">
-          <PixelBlast pixelSize={1} patternDensity={0.65} />
+          <PixelBlast pixelSize={3} patternDensity={0.80} />
           <main className="pointer-events-auto relative z-10 flex min-h-screen flex-col items-center gap-2 font-mono scroll-fade-y">
             <Banner bannerImageSource={porftFolioDataMemo.bannerImages[0]} />
             <ProfileContainer showProfileImage={isShowProfilePicture} portforlioData={porftFolioDataMemo} />
@@ -55,8 +57,8 @@ const ProfileContainer = ({ showProfileImage, portforlioData }: { showProfileIma
         <img className="block h-full w-full rounded-full object-cover" src={!showProfileImage ? portforlioData.dummyProfilePicture : portforlioData.profilePicture} alt={portforlioData.fullName} />
       </div>
       <span className="text-2xl font-bold uppercase">{portforlioData.fullName}</span>
-      <span className="font-mongo font-medium">{portforlioData.bio}</span>
-      <p className="text-[12px] font-roboto ">{portforlioData.fullBio}</p>
+      <span className="font-mongo font-medium">{portforlioData.bio} | {portforlioData.currentAcadmics}</span>
+      <p className="text-[15px] font-roboto ">{portforlioData.fullBio({ interviewsCount: portforlioData.interviewsCount })}</p>
     </div>
 
   )
@@ -73,7 +75,7 @@ const NavigationBar = ({ currentTab, setCurrentTab, portFolioData }: { currentTa
       </div>
 
       {currentTab === "Experience" && <ExperienceWrapper key={useId()} expreienceData={portFolioData.experiences} />}
-      {currentTab === "Projects" && <ProjectsWrapper key={useId()} projectData={portFolioData.projects}/>}
+      {currentTab === "Projects" && <ProjectsWrapper key={useId()} projectData={portFolioData.projects} />}
     </div>)
 
 }
@@ -104,8 +106,8 @@ const ExperienceCard = ({ experienceOject }: { experienceOject: ExperienceInterf
           <div className="flex gap-2 items-center">
             <img className="h-16 rounded-sm" src={experienceOject.companyLogo} alt={experienceOject.companyName + " Logo"} />
             <div className="flex flex-col gap-0">
-              <span className="text-xl font-bold uppercase">{experienceOject.role}</span>
-              <span><span className="font-medium">{experienceOject.companyName}</span> | {monthUtcNumberToCompleteMonth[new Date(experienceOject.startingFrom).getUTCMonth()]}{" "}{new Date(experienceOject.startingFrom).getFullYear()}{experienceOject.endDate && " - " + monthUtcNumberToCompleteMonth[new Date(experienceOject.endDate).getUTCMonth()] + "-" + new Date(experienceOject.endDate).getFullYear()} | {experienceOject.type}</span>
+              <span className="text-xl font-bold uppercase">{experienceOject.companyName}</span>
+              <span><span className="font-medium">{experienceOject.role}</span> | {monthUtcNumberToCompleteMonth[new Date(experienceOject.startingFrom).getUTCMonth()]}{" "}{new Date(experienceOject.startingFrom).getFullYear()}{experienceOject.endDate && " - " + monthUtcNumberToCompleteMonth[new Date(experienceOject.endDate).getUTCMonth()] + "-" + new Date(experienceOject.endDate).getFullYear()} | {experienceOject.type}</span>
               <span className="text-[12px] uppercase">{experienceOject.location}</span>
             </div>
           </div>
@@ -117,16 +119,14 @@ const ExperienceCard = ({ experienceOject }: { experienceOject: ExperienceInterf
           ))}
         </div>
         {experienceOject.images && (<div>
-          <span>Images:-</span>
           <div className="flex w-full justify-center items-center h-auto">
-            {experienceOject.images.length > 1  && <button className={`${0 == currentImageIndex ? "cursor-not-allowed":""} w-[30%] `} onClick={() => handleImageMove("left")} disabled={0 == currentImageIndex}><ChevronLeftIcon /></button>}
+            {experienceOject.images.length > 1 && <button className={`${0 == currentImageIndex ? "cursor-not-allowed" : ""} w-[30%] `} onClick={() => handleImageMove("left")} disabled={0 == currentImageIndex}><ChevronLeftIcon /></button>}
             <img className="w-170" src={experienceOject.images[currentImageIndex]} />
             {experienceOject.images.length > 1 && <button className={`${experienceOject.images.length - 1 === currentImageIndex ? "cursor-not-allowed " : ""}w-[30%]`} onClick={() => handleImageMove("right")} disabled={experienceOject.images.length - 1 === currentImageIndex}><ChevronRightIcon /></button>}
           </div>
         </div>)}
-        <span>SKILLSHET:-</span>
         <div className="flex flex-wrap gap-1">
-          {experienceOject.skillShet && experienceOject.skillShet.map((skill, index) => (<span key={skill + "_key" + index  } className="px-3  rounded-full bg-zinc-950 text-white">{skill}</span>))}
+          {experienceOject.skillShet && experienceOject.skillShet.map((skill, index) => (<span key={skill + "_key" + index} className="px-3  rounded-full bg-zinc-950 text-white">{skill}</span>))}
         </div>
       </div>
     </div>
@@ -135,18 +135,68 @@ const ExperienceCard = ({ experienceOject }: { experienceOject: ExperienceInterf
 
 
 
-const ProjectsWrapper = ({projectData}:{projectData:ProjectInterface[]})=>{
+const ProjectsWrapper = ({ projectData }: { projectData: ProjectInterface[] }) => {
   return (
-    <div className="flex flex-col gap-3">
-      {projectData.map((projectDataObject,index)=> <ProjectCards projectObject={projectDataObject} key={index + "_"+projectDataObject.name}/>)}
+    <div className="flex flex-col gap-3 mt-4">
+      {projectData.map((projectDataObject, index) => <ProjectCards projectObject={projectDataObject} key={index + "_" + projectDataObject.name} />)}
     </div>
   )
 }
 
-const ProjectCards = ({projectObject}:{projectObject:ProjectInterface})=>{
+const ProjectCards = ({ projectObject }: { projectObject: ProjectInterface }) => {
   console.log(projectObject)
   return (
-    <div>{projectObject.name}</div>
+    <div className="flex flex-col items-center border shadow-md px-4 py-2 gap-4">
+      <div className="flex flex-col gap-0 w-full">
+        <span className="text-3xl font-extrabold">{projectObject.name}</span>
+        <span className="text-sm ">From: {projectObject.startingDate.toLocaleDateString()} {projectObject.endDate ? `To: ${projectObject.endDate.toLocaleDateString()}` : "• Ongoing"}</span>
+        <Link href={projectObject.liveUrlLink} className="flex text-blue-400 hover:text-blue-500" target="_blank"><span>Live url</span> <ArrowUpRightIcon /></Link>
+      </div>
+      <div className="flex flex-col w-full gap-2">
+        {projectObject.description.map((descriptionParagraph, index) => (
+          <span className="font-normal w-full" key={index + descriptionParagraph.slice(1, 4)}>{descriptionParagraph}</span>
+        ))}
+      </div>
+      {projectObject.images && <img src={projectObject.images[0]} alt={projectObject.name} />}
+      <div>
+        <span className="w-full">Achivements:- </span>
+        <div className="flex flex-col w-full gap-2">
+          {projectObject.achivements.map((projectAchinvements, index) => (
+            <span className="font-normal w-full" key={projectAchinvements + index}>• {projectAchinvements}</span>
+          ))}
+        </div>
+      </div>
+      <div className="w-full">
+        <span className="w-full">Skillset:-</span>
+        <div className="flex gap-1 w-full">
+          {projectObject.skillShet.map((skill, index) => (
+            <span className="w-fit px-4  bg-zinc-950 rounded-full text-white " key={skill + index}>{skill}</span>
+          ))}
+        </div>
+      </div>
+      {projectObject.contributers && <div className="w-full">
+        <span>Contributors:-</span>
+        <div className="flex flex-wrap">
+          {projectObject.contributers.map((contributors, index) => (
+            <Link target="_blank" href={contributors.link} key={contributors.username + index} className="flex gap-2 justify-center items-center">
+              {contributors.iconOfSocialMedia && contributors.iconOfSocialMedia.includes("git") && <img src={contributors.iconOfSocialMedia} alt={contributors.username} />}
+              <span className="flex gap-1 text-blue-500 hover:text-blue-400"><span>{contributors.username}</span><ArrowUpRightIcon /></span>
+            </Link>
+          ))}
+        </div>
+      </div>}
+      {projectObject.externalLinks && <div className="w-full">
+        <span>Link:-</span>
+        <div className="flex flex-wrap">
+          {projectObject.externalLinks.map((link, index) => (
+            <Link target="_blank" href={link.link} key={link.link + index} className="flex gap-2 justify-center items-center">
+              {link.icon && link.icon.includes("git") ? <img src={link.icon} alt={link.link} />:<img src={link.icon} alt={link.link}/>}
+              <span className="flex gap-1 text-blue-500 hover:text-blue-400"><span>{link.link}</span><ArrowUpRightIcon /></span>
+            </Link>
+          ))}
+        </div>
+      </div>}
+    </div>
   )
 }
 export default function HomePage() {

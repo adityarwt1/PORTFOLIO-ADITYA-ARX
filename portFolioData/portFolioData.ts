@@ -10,8 +10,8 @@ export interface ExperienceInterface {
     skillShet?: string[];
     isPaid: boolean;
     companyLogo?: string;
-    type:"Part-Time" |"Remote" |"Full Time" | "Internship",
-    location:string
+    type: "Part-Time" | "Remote" | "Full Time" | "Internship",
+    location: string
 }
 
 export interface EmailInterface {
@@ -45,6 +45,7 @@ export interface ProjectExternalLinkInterface {
 export interface ProjectContributorInterface {
     iconOfSocialMedia?: string;
     link: string;
+    username:string
 }
 
 export interface ProjectInterface {
@@ -57,6 +58,7 @@ export interface ProjectInterface {
     startingDate: Date;
     endDate?: Date;
     contributers?: ProjectContributorInterface[];
+    skillShet:string[]
 }
 
 export interface AcademicBackgroundInterface {
@@ -78,8 +80,8 @@ export interface PortFolioInterfaces {
     lastOnline: string;
     currentAcadmics: string;
     hoby: string;
-    currentRole:string
-    navigationTabs:navigationTypes[]
+    currentRole: string
+    navigationTabs: navigationTypes[]
     emailIds: EmailInterface[];
     mobileNumber: number[];
     course: string;
@@ -88,14 +90,15 @@ export interface PortFolioInterfaces {
     experiences: ExperienceInterface[];
     projects: ProjectInterface[];
     acadmicBackgrounds: AcademicBackgroundInterface[];
-    introTimeout:number
-    showProfileSearchParamName:string
-    dummyProfilePicture:string
-    fullBio:string
+    introTimeout: number
+    showProfileSearchParamName: string
+    dummyProfilePicture: string
+    fullBio: ({ interviewsCount }: { interviewsCount: number }) => string
+    interviewsCount: number
 }
-export type navigationTypes = "Experience"| "Certificate"|"Projects"|"Acadmic"|"Contact"|"More About"
+export type navigationTypes = "Experience" | "Certificate" | "Projects" | "Acadmic" | "Contact" | "More About"
 export const portforlioData: PortFolioInterfaces = {
-    navigationTabs:[ "Experience", "Projects","Certificate", "Acadmic","Contact", "More About"],
+    navigationTabs: ["Experience", "Projects", "Certificate", "Acadmic", "Contact", "More About"],
     username: "adityarwt1",
     acadmicBackgrounds: [{
         address: "Sidhi, Post Code 48661 Madhya Pradesh, India.",
@@ -118,7 +121,7 @@ export const portforlioData: PortFolioInterfaces = {
         image: ["/school/soe/10Result.png"]
     }],
     bannerImages: ["/bannerImages/1.png"],
-    bio: "Dev/DevOps Engineer | Linux | MERN/PERN | DSA C++",
+    bio: "Dev/DevOps Engineer | React & Next.js | Linux | MERN/PERN | DSA C++",
     certificates: [{
         certificateDescription: "DevOps skill start with here started to understand the KUBERNETES then get into system design by own.",
         certificateIssueDate: new Date(2025, 5, 18),
@@ -172,8 +175,8 @@ export const portforlioData: PortFolioInterfaces = {
         companyLogo: "/company/arxSoftwares/logo.png",
         images: ["/company/arxSoftwares/banner.png"],
         skillShet: ["NEXT.JS", 'REMIX 3', 'REACT.JS', "PRISMA ORM", "FIREBASE AUTHENTICATION"],
-        type:"Part-Time",
-        location:"Madhya Pradesh India"
+        type: "Part-Time",
+        location: "Madhya Pradesh India"
     },
     {
         companyName: "TRIPX PAY",
@@ -189,30 +192,39 @@ export const portforlioData: PortFolioInterfaces = {
         ],
         skillShet: ["Firebase", "Next.js", "Tailwind CSS"],
         companyLogo: "/company/tripxpay/logo.ico",
-        type:"Internship",
-        location:"New Delhi India"
+        type: "Internship",
+        location: "New Delhi India"
     }],
-    fullName:"ADITYA RAWAT",
-    hoby:"GAMMING AND CODDING",
-    lastOnline:new Date().toISOString(),
-    mobileNumber:[
+    fullName: "ADITYA RAWAT",
+    hoby: "GAMMING AND CODDING",
+    lastOnline: new Date().toISOString(),
+    mobileNumber: [
         6263508686,
         9244524565
     ],
-    profilePicture:"/profilePicture.png",
-    projects:[{
-        achivements:["Build software library where new modern problem who might be solve with the technical stuff solved and shipped!",
-
+    profilePicture: "/profilePicture.png",
+    projects: [{
+        achivements: ["Build software library where new modern problem who might be solve with the technical stuff solved and shipped!",
+            "Never Giup Attituded taking ahead from others"
         ],
-        description:['Solving Real Worl Problems who might be solve with technical stuff.'],
-        startingDate:new Date(2026,7,24),
-        liveUrlLink:"https://arx-softwares.vercel.app/",
-        name:"ARX SOFTWARES",
-        images:['/company/arxSoftwares/banner.png']
+        description: [
+            'Solving Real Worl Problems who might be solve with technical stuff. this is the best project regariding software reasearch plateform trying our best from becomming the number one in the software industry, we are belive in the tranparancy so our promise are actual promise',
+            "Creating Npm Package and library in solo hand!"
+        ],
+        startingDate: new Date(2026, 7, 24),
+        liveUrlLink: "https://arx-softwares.vercel.app/",
+        name: "ARX SOFTWARES",
+        images: ['/company/arxSoftwares/banner.png',"/company/tripxpay/Internship.png"],
+        skillShet:["Next.js", "MongoDB"],
+        contributers:[{link:"https://github.com/adityarwt1",username:"adityarwt1",iconOfSocialMedia:"/socialMediaIcons/github.svg"}],
+        endDate: new Date(3000,8,24),
+        externalLinks:[{link:"https://github.com/adityarwt1/ARX-SOFTWARES",icon:"/socialMediaIcons/github.svg"}]
+
     }],
-    currentRole:"SOFTWARE ENGINEER",
-    introTimeout:2000,
-    showProfileSearchParamName:"resume",
-    dummyProfilePicture:"/defaultPicture.png",
-    fullBio:`Myself Aditya Rawat currenty I am working at own product called ARX SOFTWARES. I am started codding since past ${new Date().getFullYear() - 2024} years when I was in class 10th, since this period of time gave 3 interviews in the startups and worked full time intern at one of those fintech company.`
+    currentRole: "SOFTWARE ENGINEER",
+    introTimeout: 2000,
+    showProfileSearchParamName: "resume",
+    dummyProfilePicture: "/defaultPicture.png",
+    interviewsCount: 3,
+    fullBio: ({ interviewsCount }) => `Myself Aditya Rawat currenty I am working at own product called ARX SOFTWARES. I am started codding since past ${new Date().getFullYear() - 2024} years when I was in class 10th, since this period of time gave ${interviewsCount} interviews in the startups and worked full time intern at one of those fintech company.`
 }; 
