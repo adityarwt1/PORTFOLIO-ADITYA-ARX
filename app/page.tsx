@@ -4,7 +4,7 @@ import Link from "next/link";
 import IntroAnimation from "@/components/IntroLoadin";
 import PixelBlast from "@/components/PixelBlast";
 import Image from 'next/image'
-import { ExperienceInterface, navigationTypes, PortFolioInterfaces, portforlioData, ProjectInterface, } from "@/portFolioData/portFolioData";
+import { CertificateInterface, ExperienceInterface, navigationTypes, PortFolioInterfaces, portforlioData, ProjectInterface, } from "@/portFolioData/portFolioData";
 import { AnimatePresence } from "motion/react";
 import { useSearchParams } from "next/navigation";
 import { Dispatch, SetStateAction, Suspense, useEffect, useId, useMemo, useState } from "react";
@@ -76,6 +76,7 @@ const NavigationBar = ({ currentTab, setCurrentTab, portFolioData }: { currentTa
 
       {currentTab === "Experience" && <ExperienceWrapper key={useId()} expreienceData={portFolioData.experiences} />}
       {currentTab === "Projects" && <ProjectsWrapper key={useId()} projectData={portFolioData.projects} />}
+      {currentTab === "Certificate" && <CertificateWrapper key={useId()} certificateArray={portFolioData.certificates} />}
     </div>)
 
 }
@@ -144,12 +145,11 @@ const ProjectsWrapper = ({ projectData }: { projectData: ProjectInterface[] }) =
 }
 
 const ProjectCards = ({ projectObject }: { projectObject: ProjectInterface }) => {
-  console.log(projectObject)
   return (
     <div className="flex flex-col items-center border shadow-md px-4 py-2 gap-4">
       <div className="flex flex-col gap-0 w-full">
         <span className="text-3xl font-extrabold">{projectObject.name}</span>
-        <span className="text-sm ">From: {projectObject.startingDate.toLocaleDateString()} {projectObject.endDate ? `To: ${projectObject.endDate.toLocaleDateString()}` : "• Ongoing"}</span>
+        <span className="text-sm ">From: {projectObject.startingDate.getDate() + " " + monthUtcNumberToCompleteMonth[projectObject.startingDate.getMonth()] + " " + projectObject.startingDate.getFullYear()} {projectObject.endDate ? `To: ${projectObject.endDate.getDate() + " " + monthUtcNumberToCompleteMonth[projectObject.endDate.getMonth()] + " " + projectObject.endDate.getFullYear()} ` : "• Ongoing"}</span>
         <Link href={projectObject.liveUrlLink} className="flex text-blue-400 hover:text-blue-500" target="_blank"><span>Live url</span> <ArrowUpRightIcon /></Link>
       </div>
       <div className="flex flex-col w-full gap-2">
@@ -190,12 +190,41 @@ const ProjectCards = ({ projectObject }: { projectObject: ProjectInterface }) =>
         <div className="flex flex-wrap">
           {projectObject.externalLinks.map((link, index) => (
             <Link target="_blank" href={link.link} key={link.link + index} className="flex gap-2 justify-center items-center">
-              {link.icon && link.icon.includes("git") ? <img src={link.icon} alt={link.link} />:<img src={link.icon} alt={link.link}/>}
+              {link.icon && link.icon.includes("git") ? <img src={link.icon} alt={link.link} /> : <img src={link.icon} alt={link.link} />}
               <span className="flex gap-1 text-blue-500 hover:text-blue-400"><span>{link.link}</span><ArrowUpRightIcon /></span>
             </Link>
           ))}
         </div>
       </div>}
+    </div>
+  )
+}
+
+
+const CertificateWrapper = ({ certificateArray }: { certificateArray: CertificateInterface[] }) => {
+  return (
+    <div className="flex mt-4 flex-col gap-1">
+      {certificateArray.map((certificateJson, index) => <CertificateCard certicateJson={certificateJson} key={certificateJson.certificateName + "_" + index} />)}
+    </div>
+  )
+}
+
+const CertificateCard = ({ certicateJson }: { certicateJson: CertificateInterface }) => {
+  console.log(certicateJson)
+  return (
+    <div className="border px-4 flex flex-col py-2 shadow-md gap-2">
+      <div className="flex flex-col">
+        <span className="uppercase font-bold text-xl">{certicateJson.certificateName}</span>
+        <div className="flex gap-2.5">
+          <span className="text-sm font-normal">Issue Date: {certicateJson.certificateIssueDate.getDate() + " " + monthUtcNumberToCompleteMonth[certicateJson.certificateIssueDate.getMonth()] + " " + certicateJson.certificateIssueDate.getFullYear()}, By {certicateJson.certificateProvider}</span>
+          {certicateJson.certificateOffialLink && <Link href={certicateJson.certificateOffialLink} className="flex gap-0.5 text-blue-400" target="_blank"><span>Official Link</span><ArrowUpRightIcon/></Link>}
+        </div>
+      </div>
+      <div>{certicateJson.certificateDescription}</div>
+      <img src={certicateJson.images[0]} alt={certicateJson.certificateName} /> 
+      <div className="flex gap-1 flex-wrap">
+      {certicateJson.certificateSkillGain && certicateJson.certificateSkillGain.map((skill, index)=> (<span key={skill + "_" + index}  className="px-4 w-fit rounded-full bg-zinc-950 text-white text-nowrap ">{skill}</span>))}
+      </div>
     </div>
   )
 }
